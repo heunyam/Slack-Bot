@@ -1,7 +1,7 @@
 import requests
 
 
-def get_json(access_token):
+def get_channels_data(access_token) -> dict:
     url = 'https://slack.com/api/conversations.list'
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
