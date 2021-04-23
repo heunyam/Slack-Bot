@@ -19,3 +19,13 @@ def test_get_channels_data(mocker: MockerFixture) -> None:
 
     result = get_channels_data(BOT_OAUTH_ACCESS_TOKEN)
     assert result['ok'] is True
+
+
+def test_get_channels_data_error(mocker: MockerFixture) -> None:
+    mock_json_data = {
+        'ok': False
+    }
+    mocker.patch('src.get_channel_id.requests.get', return_value=MockResponse(mock_json_data))
+
+    result = get_channels_data(BOT_OAUTH_ACCESS_TOKEN)
+    assert result['ok'] is False
