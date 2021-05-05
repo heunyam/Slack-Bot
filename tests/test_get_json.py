@@ -1,6 +1,5 @@
-from src.get_channel_id import get_channels_data
+from app import get_channels_data
 from pytest_mock import MockerFixture
-from config import BOT_OAUTH_ACCESS_TOKEN
 
 
 class MockResponse:
