@@ -2,11 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from config import set_configure
 
 
 def main():
+    set_configure()  # 사용자 정의 환경 변수를 설정합니다.
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings.dev')
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
