@@ -12,5 +12,5 @@ class HelloAPI(APIView):
 class PingAPI(APIView):
     def get(self, *args, **kwargs):
         return Response({
-            'ping': 'pong'
+            'ping': 'pong1'
         })
