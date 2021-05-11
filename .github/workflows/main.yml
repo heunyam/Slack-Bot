@@ -41,7 +41,7 @@ jobs:
         pip install -r requirements.txt
         
     - name: Deploy dev
-      working-directory: ./app
       run: |
+        source zappa-deploy-env/bin/activate
         pip install zappa
         zappa update dev
