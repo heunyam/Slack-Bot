@@ -30,6 +30,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
         aws-region: ap-northeast-2
         
+    - name: Check credential
+      run: |
+        sudo aws configure list-profiles
+        
     - name: Install Dependencies
       run: |
         source zappa-deploy-env/bin/activate
@@ -38,10 +42,5 @@ jobs:
         
     - name: Deploy dev
       working-directory: ./app
-      env:
-        VIRTUAL_ENV: ./zappa-deploy-env
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
-        AWS_DEFAULT_REGION: us-west-2
       run: |
         zappa update dev
