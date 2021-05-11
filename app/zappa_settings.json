@@ -4,6 +4,7 @@
         "django_settings": "app.settings.dev",
         "project_name": "commit-bot",
         "runtime": "python3.8",
-        "s3_bucket": "zappa-dkpps664g"
+        "s3_bucket": "zappa-dkpps664g",
+        "touch": false
     }
 }
