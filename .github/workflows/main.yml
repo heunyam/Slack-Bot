@@ -2,54 +2,54 @@ name: Zappa Deploy
 
 on:
   push:
-    branches: 
+    branches:
     - master
     
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
     
-    steps:
-    - uses: actions/checkout@v2
+#     steps:
+#     - uses: actions/checkout@v2
     
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
+#     - name: Set up Python 3.8
+#       uses: actions/setup-python@v1
+#       with:
+#         python-version: 3.8
       
-    - name: Create Virtual Environment
-      run: |
-        pip install virtualenv
-        virtualenv --python=3.8 zappa-deploy-env
-        source zappa-deploy-env/bin/activate
+#     - name: Create Virtual Environment
+#       run: |
+#         pip install virtualenv
+#         virtualenv --python=3.8 zappa-deploy-env
+#         source zappa-deploy-env/bin/activate
         
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
-        aws-region: ap-northeast-2
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+#         aws-region: ap-northeast-2
         
-    - name: Check credential
-      run: |
-        sudo aws configure list-profiles
+#     - name: Check credential
+#       run: |
+#         sudo aws configure list-profiles
         
-    - name: Install Dependencies
-      run: |
-        source zappa-deploy-env/bin/activate
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+#     - name: Install Dependencies
+#       run: |
+#         source zappa-deploy-env/bin/activate
+#         python -m pip install --upgrade pip
+#         pip install -r requirements.txt
         
-    - name: Install Custom Django
-      run: |
-        git clone -b stable/3.2.x --single-branch https://github.com/heunyam/django.git
+#     - name: Install Custom Django
+#       run: |
+#         git clone -b stable/3.2.x --single-branch https://github.com/heunyam/django.git
 
-        cd django
-        pip install -e .
+#         cd django
+#         pip install -e .
         
-    - name: Deploy dev
-      run: |
-        source zappa-deploy-env/bin/activate
-        pip install zappa
-        cd app
-        zappa update dev
+#     - name: Deploy dev
+#       run: |
+#         source zappa-deploy-env/bin/activate
+#         pip install zappa
+#         cd app
+#         zappa update dev
