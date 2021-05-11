@@ -43,4 +43,5 @@ jobs:
     - name: Deploy dev
       working-directory: ./app
       run: |
+        pip install zappa
         zappa update dev
