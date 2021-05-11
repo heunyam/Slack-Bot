@@ -45,4 +45,6 @@ jobs:
         source zappa-deploy-env/bin/activate
         pip install zappa
         cd app
+        sudo LD_RUN_PATH=/usr/local/lib ./configure --enable-optimizations
+        sudo LD_RUN_PATH=/usr/local/lib make altinstall
         zappa update dev
