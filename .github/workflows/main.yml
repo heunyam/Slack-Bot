@@ -42,7 +42,8 @@ jobs:
         
     - name: Install Custom Django
       run: |
-        git clone -b --single-branch stable/3.2.x https://github.com/heunyam/django.git
+        git clone -b stable/3.2.x --single-branch https://github.com/heunyam/django.git
+
         cd django
         pip install -e .
         
