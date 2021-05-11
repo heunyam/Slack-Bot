@@ -1,0 +1,33 @@
+name: Zappa Deploy
+
+on:
+  push:
+    branches: 
+    - master
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+      
+    - name: Create Virtual Environment
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        
+    - name: deploy with zappa
+      env:
+        VIRTUAL_ENV: ./venv
+      run: |
+        zappa update
