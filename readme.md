@@ -9,7 +9,6 @@
     - 사용자 입력 이벤트 받기
     
 3) Github에 오늘자 commit이 없는 경우 Slack DM으로 알림메시지 보내기
-    - 
     
     
 ### Idea
