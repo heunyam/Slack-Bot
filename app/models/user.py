@@ -17,3 +17,8 @@ class User(Base):
         session.add(self)
         session.commit()
         return self
+
+    @classmethod
+    def get_user_account(cls, username):
+        user_account = session.query(cls).filter(cls.name == username).first()
+        return user_account
