@@ -14,8 +14,8 @@ def get_answer(user_query, user_info):
         username = user_info['user']['real_name']
         commit_events = get_today_commit_events('heunyam', 'sejun0702!')
         message = f'{username}님의 오늘 커밋은 {len(commit_events)} 개 입니다.'
-        if len(commit_events) < 10:
-            message += f"\n{len(commit_events)}개? 개빠졌네 {10 - len(commit_events)} 커밋만 더 하자"
+        if len(commit_events) < 1:
+            message += f"아직도 커밋을 하지 않았네요. 오늘이 가기 전에 커밋을 합시다!"
 
         return message
 
