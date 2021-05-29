@@ -7,15 +7,23 @@ from app.utils.slack.slack_event import get_mention_message, is_mention, get_use
 from app.utils.github import get_today_commit_events
 from app.utils.slack.message import post_message_to_channel
 
+from app.models.user import User
+
 
 def get_answer(user_query, user_info):
     if "커밋" in user_query:
         print(user_info)
         username = user_info['user']['real_name']
-        commit_events = get_today_commit_events('heunyam', 'sejun0702!')
-        message = f'{username}님의 오늘 커밋은 {len(commit_events)} 개 입니다.'
-        if len(commit_events) < 1:
-            message += f"아직도 커밋을 하지 않았네요. 오늘이 가기 전에 커밋을 합시다!"
+        user_account = User.get_user_account(username=username)
+        message = ''
+
+        if user_account:
+            commit_events = get_today_commit_events(user_account.id, user_account.password)
+            message = f'{username}님의 오늘 커밋은 {len(commit_events)} 개 입니다.'
+            if len(commit_events) < 1:
+                message += f"아직도 커밋을 하지 않았네요. 오늘이 가기 전에 커밋을 합시다!"
+        else:
+            message = '로그인을 먼저 해주세요!'
 
         return message
 
