@@ -2,14 +2,18 @@ import json
 from flask_restful import Resource
 from flask import request, make_response
 from config import BOT_TOKEN
-from app.utils.post_message import post_message_to_channel
-from app.utils.get_commit_events import get_today_commit_events
+
+from app.utils.slack.slack_event import get_mention_message, is_mention, get_user_info, get_user_id_in_slack_event
+from app.utils.github import get_today_commit_events
+from app.utils.slack.message import post_message_to_channel
 
 
-def get_answer(user_query):
+def get_answer(user_query, user_info):
     if "커밋" in user_query:
+        print(user_info)
+        username = user_info['user']['real_name']
         commit_events = get_today_commit_events('heunyam', 'sejun0702!')
-        message = f'오늘 커밋은 {len(commit_events)} 개 입니다.'
+        message = f'{username}님의 오늘 커밋은 {len(commit_events)} 개 입니다.'
         if len(commit_events) < 10:
             message += f"\n{len(commit_events)}개? 개빠졌네 {10 - len(commit_events)} 커밋만 더 하자"
 
@@ -19,25 +23,16 @@ def get_answer(user_query):
         return user_query
 
 
-def get_mention_message(slack_event):
-    return slack_event['event']['blocks'][0]['elements'][0]['elements'][1]['text']
-
-
-def is_mention(string_slack_event):
-    if "'type': 'app_mention'" in string_slack_event:
-        return True
-
-    return False
-
-
 def event_handler(event_type, slack_event):
     channel = slack_event["event"]["channel"]
     string_slack_event = str(slack_event)
 
     if is_mention(string_slack_event):
         try:
+            user_id = get_user_id_in_slack_event(slack_event)
+            user_info = get_user_info(user_id, BOT_TOKEN)
             user_query = get_mention_message(slack_event)
-            answer = get_answer(user_query)
+            answer = get_answer(user_query, user_info)
             post_message_to_channel(channel, answer, BOT_TOKEN)
             return make_response("ok", 200)
 
