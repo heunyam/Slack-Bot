@@ -19,7 +19,6 @@ def is_mention(string_slack_event):
 
 
 def get_mention_message(slack_event):
-    print(slack_event)
     return slack_event['event']['blocks'][0]['elements'][0]['elements'][1]['text']
 
 
