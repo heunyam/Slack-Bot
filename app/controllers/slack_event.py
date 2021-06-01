@@ -4,31 +4,19 @@ from flask import request, make_response
 from config import BOT_TOKEN
 
 from app.utils.slack.slack_event import get_mention_message, is_mention, get_user_info, get_user_id_in_slack_event
-from app.utils.github import get_today_commit_events
 from app.utils.slack.message import post_message_to_channel
-
-from app.models.user import User
+from app.service.answer import today_commit_state_message, commit_ranking_message
 
 
 def get_answer(user_query, user_info):
+    message = user_query
     if "커밋" in user_query:
-        print(user_info)
-        username = user_info['user']['real_name']
-        user_account = User.get_user_account(username=username)
-        message = ''
+        return today_commit_state_message(user_info)
 
-        if user_account:
-            commit_events = get_today_commit_events(user_account.id, user_account.password)
-            message = f'{username}님의 오늘 커밋은 {len(commit_events)} 개 입니다.'
-            if len(commit_events) < 1:
-                message += f"아직도 커밋을 하지 않았네요. 오늘이 가기 전에 커밋을 합시다!"
-        else:
-            message = '로그인을 먼저 해주세요!'
+    elif "랭킹" in user_query:
+        return commit_ranking_message()
 
-        return message
-
-    else:
-        return user_query
+    return message
 
 
 def event_handler(event_type, slack_event):
@@ -60,6 +48,10 @@ class HelloAPI(Resource):
 
     def post(self):
         slack_event = json.loads(request.data)
+
+        print(" ## 요청의 첫 구간 입니다 ## ")
+        if 'X-Slack-Retry-Num' in str(request.headers):
+            return make_response("Wait", 204, {"X-Slack-No-Retry": 1})
 
         if "challenge" in slack_event:
             return make_response(slack_event["challenge"], 200, {"content_type": "application/json"})
