@@ -21,4 +21,11 @@ class User(Base):
     @classmethod
     def get_user_account(cls, username):
         user_account = session.query(cls).filter(cls.name == username).first()
+
         return user_account
+
+    @classmethod
+    def get_users(cls):
+        users = session.query(cls).all()
+
+        return users
