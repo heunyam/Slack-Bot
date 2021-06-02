@@ -40,25 +40,23 @@ def event_handler(event_type, slack_event):
     return make_response(message, 200, {"X-Slack-No-Retry": 1})
 
 
-class HelloAPI(Resource):
-    def get(self):
-        return {
-            'message': 'hello world'
-        }
-
+class SlackEventAPI(Resource):
     def post(self):
         slack_event = json.loads(request.data)
 
-        print(" ## 요청의 첫 구간 입니다 ## ")
+        # 요청이 여러번 오는 것을 방지
         if 'X-Slack-Retry-Num' in str(request.headers):
             return make_response("Wait", 204, {"X-Slack-No-Retry": 1})
 
+        # slack 연결 요청 처리
         if "challenge" in slack_event:
             return make_response(slack_event["challenge"], 200, {"content_type": "application/json"})
 
+        # slack 이벤트 요청 처리
         if "event" in slack_event:
-            event_type = slack_event["event"]["type"]
+            event_type = slack_event.get["event"]["type"]
 
             return event_handler(event_type, slack_event)
 
+        # 처리하지 못하는 이벤트 처리
         return make_response("There are no slack request events", 404, {"X-Slack-No-Retry": 1})
