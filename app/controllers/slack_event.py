@@ -54,7 +54,7 @@ class SlackEventAPI(Resource):
 
         # slack 이벤트 요청 처리
         if "event" in slack_event:
-            event_type = slack_event.get["event"]["type"]
+            event_type = slack_event.get("event").get("type")
 
             return event_handler(event_type, slack_event)
 
