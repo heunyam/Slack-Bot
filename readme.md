@@ -8,6 +8,6 @@
 ### 개발 과정
 
 #### 목표
-[ x ] Slack Bot 만들어보기
-[ ] AWS Lambda 써보기
-[ ] Django
+- [x] Slack Bot 만들어보기
+- [ ] AWS Lambda 써보기
+- [ ] Django
