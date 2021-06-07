@@ -1,7 +1,8 @@
 import json
+import os
+
 from flask_restful import Resource
 from flask import request, make_response
-from config import BOT_TOKEN
 
 from app.utils.slack.slack_event import get_mention_message, is_mention, get_user_info, get_user_id_in_slack_event
 from app.utils.slack.message import post_message_to_channel
@@ -26,10 +27,10 @@ def event_handler(event_type, slack_event):
     if is_mention(string_slack_event):
         try:
             user_id = get_user_id_in_slack_event(slack_event)
-            user_info = get_user_info(user_id, BOT_TOKEN)
+            user_info = get_user_info(user_id, os.getenv('BOT_TOKEN'))
             user_query = get_mention_message(slack_event)
             answer = get_answer(user_query, user_info)
-            post_message_to_channel(channel, answer, BOT_TOKEN)
+            post_message_to_channel(channel, answer, os.getenv('BOT_TOKEN'))
             return make_response("ok", 200)
 
         except IndexError:
