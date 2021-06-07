@@ -9,6 +9,4 @@
 
 #### 목표
 - [x] Slack Bot 만들어보기
-- [ ] AWS Lambda 써보기
-- [ ] Django
-- [ ] poetry로 패키지 관리하기
+- [x] poetry로 패키지 관리하기
