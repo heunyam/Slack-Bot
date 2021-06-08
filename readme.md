@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://gitpoint.co/">
-    <img alt="GitPoint" title="GitPoint" src="https://user-images.githubusercontent.com/48384692/121125373-6e216f80-c861-11eb-92aa-90f5a8bdd83d.png" width="300">
+    <img alt="CommitBot" title="CommitBot" src="https://user-images.githubusercontent.com/48384692/121125373-6e216f80-c861-11eb-92aa-90f5a8bdd83d.png" width="300">
   </a>
 </p>
 
