@@ -1,4 +1,4 @@
-# Commit-Bot
+<h1 align="center"> Commit Bot </h1> <br>
 
 ### Stack
 - Python 3.8
