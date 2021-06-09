@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 from flask_restful import Resource
 from flask import request, make_response
@@ -43,6 +44,7 @@ def event_handler(event_type, slack_event):
 
 class SlackEventAPI(Resource):
     def post(self):
+        start = time.time()
         slack_event = json.loads(request.data)
 
         # 요청이 여러번 오는 것을 방지
@@ -56,8 +58,9 @@ class SlackEventAPI(Resource):
         # slack 이벤트 요청 처리
         if "event" in slack_event:
             event_type = slack_event.get("event").get("type")
-
-            return event_handler(event_type, slack_event)
+            response = event_handler(event_type, slack_event)
+            print(time.time() - start)
+            return response
 
         # 처리하지 못하는 이벤트 처리
         return make_response("There are no slack request events", 404, {"X-Slack-No-Retry": 1})
